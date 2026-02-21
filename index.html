@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wint Wealth — WhatsApp Chat Handling SOP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* Wint Wealth Brand Palette */
+      --dark:        #0d1b2e;
+      --dark-mid:    #142235;
+      --dark-card:   #1a2d45;
+      --dark-border: #1f3454;
+      --green:       #4ecb71;
+      --green-dim:   #2a9e4f;
+      --green-glow:  rgba(78,203,113,0.12);
+      --green-light: #edfbf1;
+      --white:       #ffffff;
+      --off-white:   #f5f7fa;
+      --text:        #1c2f42;
+      --text-mid:    #3d5168;
+      --text-light:  #6a82a0;
+      --line:        #dde5ef;
+
+      /* Status colours */
+      --amber:       #f5a623;
+      --amber-light: #fffbf0;
+      --amber-border:#fce8b2;
+      --red:         #e5524a;
+      --red-light:   #fff5f4;
+      --red-border:  #f9c8c6;
+      --blue:        #3b82f6;
+      --blue-light:  #eff5ff;
+      --blue-border: #c7daf8;
+      --purple:      #8b5cf6;
+      --purple-light:#f4f0ff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.75;
+    }
+
+    /* ════════════════════════════════
+       HERO HEADER
+    ════════════════════════════════ */
+    header {
+      background: var(--dark);
+      color: var(--white);
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(78,203,113,0.15) 0%, transparent 70%);
+      top: -150px; right: -100px;
+      pointer-events: none;
+    }
+    .hero-glow2 {
+      position: absolute;
+      width: 300px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(78,203,113,0.07) 0%, transparent 70%);
+      bottom: -80px; left: 40px;
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      padding: 52px 44px 44px;
+    }
+    .brand-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px;
+      background: var(--green);
+      border-radius: 50%;
+    }
+    .brand-name {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+    .brand-sep { color: rgba(255,255,255,0.2); font-size: 13px; }
+    .brand-sub { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.5px; }
+
+    header h1 {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--white);
+      margin-bottom: 10px;
+      max-width: 580px;
+    }
+    header h1 span { color: var(--green); }
+    header p {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.55);
+      max-width: 520px;
+      font-weight: 300;
+    }
+
+    .hero-chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+    .chip {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 500;
+    }
+    .chip.green {
+      background: rgba(78,203,113,0.12);
+      border-color: rgba(78,203,113,0.25);
+      color: var(--green);
+    }
+
+    /* ════════════════════════════════
+       NAV INDEX BAR
+    ════════════════════════════════ */
+    .nav-bar {
+      background: var(--dark-mid);
+      border-bottom: 1px solid var(--dark-border);
+      padding: 0 44px;
+      overflow-x: auto;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-bar::-webkit-scrollbar { height: 3px; }
+    .nav-bar::-webkit-scrollbar-thumb { background: var(--green-dim); border-radius: 3px; }
+    .nav-bar a {
+      display: inline-block;
+      padding: 13px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+    }
+    .nav-bar a:hover { color: var(--green); border-bottom-color: var(--green); }
+
+    /* ════════════════════════════════
+       MAIN LAYOUT
+    ════════════════════════════════ */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 36px 24px 80px;
+    }
+
+    /* ════════════════════════════════
+       RESPONSE TIME BANNER
+    ════════════════════════════════ */
+    .time-banner {
+      background: var(--dark);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      border: 1px solid var(--dark-border);
+    }
+    .time-item {
+      text-align: center;
+    }
+    .time-val {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--green);
+      font-family: 'DM Mono', monospace;
+      margin-bottom: 4px;
+    }
+    .time-label {
+      font-size: 11.5px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.4;
+    }
+    .time-divider {
+      width: 1px;
+      background: var(--dark-border);
+      align-self: stretch;
+    }
+
+    /* ════════════════════════════════
+       STEP BLOCKS
+    ════════════════════════════════ */
+    .step-block {
+      background: var(--white);
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      margin-bottom: 24px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(13,27,46,0.06);
+    }
+    .step-hdr {
+      background: var(--dark);
+      padding: 18px 26px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .step-badge {
+      background: var(--green);
+      color: var(--dark);
+      font-size: 12px;
+      font-weight: 700;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-badge.icon { font-size: 14px; background: rgba(78,203,113,0.15); color: var(--green); }
+    .step-hdr h2 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--white);
+    }
+    .step-hdr .step-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .step-body {
+      padding: 24px 26px;
+    }
+
+    /* ════════════════════════════════
+       SCENARIO CARDS
+    ════════════════════════════════ */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 580px) { .scenario-grid { grid-template-columns: 1fr; } }
+
+    .s-card {
+      border-radius: 10px;
+      padding: 18px;
+      border: 1.5px solid transparent;
+    }
+    .s-card.green { background: var(--green-light); border-color: #b6e8c6; }
+    .s-card.amber { background: var(--amber-light); border-color: var(--amber-border); }
+
+    .s-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .s-tag.green { color: var(--green-dim); }
+    .s-tag.amber { color: #c07d10; }
+
+    .s-card h3 {
+      font-size: 13.5px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    /* ════════════════════════════════
+       ACTION LIST
+    ════════════════════════════════ */
+    .a-list { list-style: none; }
+    .a-list li {
+      display: flex;
+      gap: 11px;
+      align-items: flex-start;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--line);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+    .a-list li:last-child { border-bottom: none; }
+    .a-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .a-dot.g { background: var(--green-light); color: var(--green-dim); }
+    .a-dot.b { background: var(--blue-light); color: var(--blue); }
+    .a-dot.a { background: var(--amber-light); color: #c07d10; }
+    .a-dot.r { background: var(--red-light); color: var(--red); }
+    .a-dot.n { background: #f0f2f5; color: var(--text-mid); }
+    .a-dot.p { background: var(--purple-light); color: var(--purple); }
+
+    /* ════════════════════════════════
+       SAMPLE MESSAGES
+    ════════════════════════════════ */
+    .sample {
+      background: var(--dark);
+      border-radius: 8px;
+      padding: 12px 16px;
+      margin-top: 10px;
+      position: relative;
+    }
+    .sample-lbl {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 6px;
+    }
+    .sample p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.65;
+      font-style: italic;
+      font-weight: 300;
+    }
+    .sample-or {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-light);
+      padding: 4px 0;
+      font-weight: 600;
+    }
+
+    /* ════════════════════════════════
+       TIMELINE / FLOW
+    ════════════════════════════════ */
+    .flow { display: flex; flex-direction: column; }
+    .flow-step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      position: relative;
+    }
+    .flow-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 14px; top: 32px;
+      width: 2px;
+      height: calc(100% - 8px);
+      background: var(--line);
+    }
+    .f-dot {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid var(--line);
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      z-index: 1;
+      position: relative;
+      margin-top: 2px;
+    }
+    .f-dot.green { border-color: var(--green); background: var(--green-light); }
+    .f-dot.amber { border-color: var(--amber); background: var(--amber-light); }
+    .f-dot.red   { border-color: var(--red);   background: var(--red-light); }
+    .flow-content {
+      flex: 1;
+      padding-bottom: 22px;
+    }
+    .flow-content strong {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .flow-content span { font-size: 13px; color: var(--text-mid); }
+
+    .timer {
+      display: inline-block;
+      background: var(--amber-light);
+      border: 1px solid var(--amber-border);
+      border-radius: 20px;
+      padding: 2px 9px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #c07d10;
+      margin-left: 6px;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ════════════════════════════════
+       TAGS
+    ════════════════════════════════ */
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+    .tag {
+      border-radius: 20px;
+      padding: 3px 11px;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .tag.green  { background: var(--green-light);   color: var(--green-dim); }
+    .tag.red    { background: var(--red-light);      color: var(--red); }
+    .tag.amber  { background: var(--amber-light);    color: #c07d10; }
+    .tag.blue   { background: var(--blue-light);     color: var(--blue); }
+    .tag.purple { background: var(--purple-light);   color: var(--purple); }
+    .tag.dark   { background: #e8ecf1;               color: var(--text-mid); }
+
+    /* ════════════════════════════════
+       INFO / WARNING BOXES
+    ════════════════════════════════ */
+    .info-box, .warn-box, .danger-box, .tip-box {
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+    .info-box  { background: var(--blue-light);   border-left: 3px solid var(--blue);   color: #1e3a6b; }
+    .warn-box  { background: var(--amber-light);  border-left: 3px solid var(--amber);  color: #7a4a0a; }
+    .danger-box{ background: var(--red-light);    border-left: 3px solid var(--red);    color: #7a1a1a; }
+    .tip-box   { background: var(--green-light);  border-left: 3px solid var(--green);  color: #145a30; }
+    .box-lbl {
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+    .info-box .box-lbl  { color: var(--blue); }
+    .warn-box .box-lbl  { color: #c07d10; }
+    .danger-box .box-lbl{ color: var(--red); }
+    .tip-box .box-lbl   { color: var(--green-dim); }
+
+    /* ════════════════════════════════
+       DO / DON'T GRID
+    ════════════════════════════════ */
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 4px;
+    }
+    @media (max-width: 560px) { .do-dont { grid-template-columns: 1fr; } }
+
+    .do-card, .dont-card {
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .do-card   { background: var(--green-light); border: 1.5px solid #b6e8c6; }
+    .dont-card { background: var(--red-light);   border: 1.5px solid var(--red-border); }
+    .do-card h4   { color: var(--green-dim); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .dont-card h4 { color: var(--red);       font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .rule-list { list-style: none; }
+    .rule-list li {
+      display: flex;
+      gap: 8px;
+      font-size: 13px;
+      padding: 5px 0;
+      border-bottom: 1px dashed rgba(0,0,0,0.08);
+      line-height: 1.5;
+      color: var(--text);
+    }
+    .rule-list li:last-child { border: none; }
+    .rule-list li::before {
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .do-card .rule-list li::before   { content: '✓'; color: var(--green-dim); font-weight: 700; }
+    .dont-card .rule-list li::before { content: '✕'; color: var(--red); font-weight: 700; }
+
+    /* ════════════════════════════════
+       DISCLAIMER CARDS
+    ════════════════════════════════ */
+    .disc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 4px;
+    }
+    @media (max-width: 580px) { .disc-grid { grid-template-columns: 1fr; } }
+    .disc-card {
+      background: var(--off-white);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .disc-type {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 7px;
+    }
+    .disc-card h4 {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .disc-card p {
+      font-size: 12.5px;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════
+       CHECKLIST
+    ════════════════════════════════ */
+    .checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    @media (max-width: 560px) { .checklist { grid-template-columns: 1fr; } }
+    .check-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: var(--off-white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .check-icon {
+      width: 18px; height: 18px;
+      border: 2px solid var(--green-dim);
+      border-radius: 4px;
+      flex-shrink: 0;
+      background: var(--green-light);
+      margin-top: 1px;
+    }
+
+    /* ════════════════════════════════
+       REFERENCE TABLE
+    ════════════════════════════════ */
+    .ref-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .ref-table th {
+      background: var(--dark);
+      color: var(--white);
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 500;
+      font-size: 11.5px;
+      letter-spacing: 0.3px;
+    }
+    .ref-table th:first-child { border-radius: 8px 0 0 0; }
+    .ref-table th:last-child  { border-radius: 0 8px 0 0; }
+    .ref-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .ref-table tr:last-child td { border: none; }
+    .ref-table tr:nth-child(even) td { background: var(--off-white); }
+
+    /* ════════════════════════════════
+       SHIFT BLOCK
+    ════════════════════════════════ */
+    .shift-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .shift-step {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: var(--off-white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 11px 14px;
+      font-size: 13.5px;
+    }
+    .shift-num {
+      background: var(--dark);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ════════════════════════════════
+       SECTION INTRO
+    ════════════════════════════════ */
+    .s-intro {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+    .divider { height: 1px; background: var(--line); margin: 20px 0; }
+
+    /* ════════════════════════════════
+       CALLOUT NOTE
+    ════════════════════════════════ */
+    .callout {
+      background: var(--dark);
+      border-radius: 12px;
+      padding: 20px 22px;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      border: 1px solid var(--dark-border);
+    }
+    .callout-icon { font-size: 22px; flex-shrink: 0; }
+    .callout-body h3 { font-size: 14px; font-weight: 600; color: var(--green); margin-bottom: 4px; }
+    .callout-body p  { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; }
+
+    /* ════════════════════════════════
+       FOOTER
+    ════════════════════════════════ */
+    footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+    }
+    footer span { color: var(--green); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<header>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="brand-row">
+      <div class="brand-dot"></div>
+      <div class="brand-name">Wint Wealth</div>
+      <div class="brand-sep">|</div>
+      <div class="brand-sub">Customer Support Team</div>
+    </div>
+    <h1>WhatsApp Chat Handling <span>SOP</span></h1>
+    <p>A step-by-step guide for handling every WhatsApp chat in a professional, accurate, and personalised manner — from greeting to resolution.</p>
+    <div class="hero-chips">
+      <span class="chip green">📋 Ver 1.0</span>
+      <span class="chip">👥 For All Chat Executives</span>
+      <span class="chip">🔒 Internal Use Only</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ NAV BAR ══════════ -->
+<nav class="nav-bar">
+  <a href="#timings">⏱ Response Times</a>
+  <a href="#opening">📨 Chat Opening</a>
+  <a href="#silence">🔇 Silence Handling</a>
+  <a href="#active">💬 Active Handling</a>
+  <a href="#call">📞 Call Requests</a>
+  <a href="#junk">🗑 Junk Chats</a>
+  <a href="#closing">✅ Closing Chats</a>
+  <a href="#shift">🌙 Shift End</a>
+  <a href="#standards">📐 Standards</a>
+  <a href="#disclaimers">⚠️ Disclaimers</a>
+  <a href="#checklist">☑ Checklist</a>
+</nav>
+
+<main>
+
+  <!-- ══════════ PURPOSE CALLOUT ══════════ -->
+  <div class="callout" style="margin-top:32px;">
+    <div class="callout-icon">💡</div>
+    <div class="callout-body">
+      <h3>Your Role as a Chat Executive</h3>
+      <p>You are not just answering queries — you are educating users and building trust. You represent the brand voice of Wint Wealth. Every message you send must be timely, technically accurate, personalised, educational (not advisory), grammatically correct, and process compliant.</p>
+    </div>
+  </div>
+
+  <!-- ══════════ RESPONSE TIMES ══════════ -->
+  <div id="timings" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge icon">⏱</div>
+      <h2>Response Time Guidelines</h2>
+      <span class="step-sub">Mandatory Timelines</span>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">Delays beyond these timelines are considered a process deviation. Please ensure every response falls within these limits.</p>
+      <div class="time-banner">
+        <div class="time-item">
+          <div class="time-val">20–30</div>
+          <div class="time-label">mins<br/>First greeting response</div>
+        </div>
+        <div class="time-divider"></div>
+        <div class="time-item">
+          <div class="time-val">30</div>
+          <div class="time-label">mins<br/>Acknowledgement (if answer needs time)</div>
+        </div>
+        <div class="time-divider"></div>
+        <div class="time-item">
+          <div class="time-val">1 hr</div>
+          <div class="time-label">Final answer after acknowledgement</div>
+        </div>
+        <div class="time-divider"></div>
+        <div class="time-item">
+          <div class="time-val">20–30</div>
+          <div class="time-label">mins silence<br/>Before sending follow-up</div>
+        </div>
+        <div class="time-divider"></div>
+        <div class="time-item">
+          <div class="time-val">30</div>
+          <div class="time-label">mins after follow-up<br/>Before closure</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CHAT OPENING ══════════ -->
+  <div id="opening" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge">1</div>
+      <h2>Chat Opening — First Thing to Check</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">As soon as a chat is assigned to you, check whether the customer has already shared a message or not. This decides which path you follow.</p>
+
+      <div class="scenario-grid">
+        <div class="s-card amber">
+          <div class="s-tag amber">⏳ Scenario A</div>
+          <h3>No message yet — just "Hi", "Hello", or blank</h3>
+          <ul class="a-list">
+            <li><span class="a-dot b">1</span><span>Send a warm greeting within 20–30 minutes.</span></li>
+            <li><span class="a-dot b">2</span><span>Wait for the customer to share their query.</span></li>
+            <li><span class="a-dot b">3</span><span>If there is no reply, follow the Silence Handling steps.</span></li>
+          </ul>
+          <div class="sample">
+            <div class="sample-lbl">Sample Greeting</div>
+            <p>Hi! I am Manorathi. Hope you are doing well! May I know your query, please?</p>
+          </div>
+        </div>
+
+        <div class="s-card green">
+          <div class="s-tag green">✅ Scenario B</div>
+          <h3>Customer has already shared a query</h3>
+          <ul class="a-list">
+            <li><span class="a-dot g">1</span><span>Greet the customer warmly within 20–30 minutes.</span></li>
+            <li><span class="a-dot g">2</span><span>Immediately acknowledge the query or answer directly if you already know the answer.</span></li>
+            <li><span class="a-dot g">3</span><span>Do NOT ignore the query. Proceed to Step 3 — Active Handling.</span></li>
+          </ul>
+          <div class="sample">
+            <div class="sample-lbl">Sample Greeting (with query)</div>
+            <p>Hi! I am Manorathi. Hope you are doing well! I have received your query regarding [topic]. Please allow me a moment to check this for you.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="warn-box" style="margin-top:16px;">
+        <div class="box-lbl">⚠ Important</div>
+        You must <strong>never</strong> skip acknowledging the customer's query. If you already know the answer, you can combine the greeting and answer together. If you need time to check, send a personalised acknowledgement first — do not keep the customer waiting without any update.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SILENCE HANDLING ══════════ -->
+  <div id="silence" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge">2</div>
+      <h2>Handling Customer Silence (No Response)</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">This applies in two situations — when the customer does not reply after your first greeting, and when the customer goes silent mid-chat after your answer. Follow the same steps in both cases.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="f-dot amber">⏱</div>
+          <div class="flow-content">
+            <strong>Wait <span class="timer">20–30 mins</span> after your last message</strong>
+            <span>Do not rush. Give the customer enough time to come back and respond.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="f-dot green">💬</div>
+          <div class="flow-content">
+            <strong>Send a personalised follow-up message</strong>
+            <span>Always use the customer's name and reference their topic. Do not send a generic copy-paste message.</span>
+            <div class="sample">
+              <div class="sample-lbl">Sample Follow-Up (initial silence)</div>
+              <p>Sir/Madam, are we still connected? The chat is still open with me. Please let me know your query whenever you are ready.</p>
+            </div>
+            <div class="sample" style="margin-top:8px;">
+              <div class="sample-lbl">Sample Follow-Up (mid-chat silence)</div>
+              <p>I hope the above message answered your query regarding [topic]. Please let me know if you have any further questions — I will be happy to assist you.</p>
+            </div>
+            <div class="warn-box">
+              <div class="box-lbl">⚠ Important</div>
+              If the system has already sent an automated follow-up (after 40–45 minutes), do <strong>NOT</strong> send another manual follow-up. This would be a process deviation.
+            </div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="f-dot amber">⏱</div>
+          <div class="flow-content">
+            <strong>Wait another <span class="timer">30 mins</span> after the follow-up</strong>
+            <span>Allow time after the follow-up message before taking any closure action.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="f-dot red">🔴</div>
+          <div class="flow-content">
+            <strong>Still no response? Close the chat.</strong>
+            <span>Tag and close as per the type of silence.</span>
+            <div class="tags">
+              <span class="tag red">No Response</span>
+              <span class="tag amber">Junk – No Response</span>
+            </div>
+            <div class="info-box" style="margin-top:10px;">
+              <div class="box-lbl">ℹ Note</div>
+              The system will trigger the no-response closure message automatically. You do not need to send a manual closing message for no-response closures.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ ACTIVE HANDLING ══════════ -->
+  <div id="active" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge">3</div>
+      <h2>Active Query Handling — Responding to the Customer</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">Once the customer shares their query, handle it carefully in the following sequence.</p>
+
+      <ul class="a-list">
+        <li>
+          <span class="a-dot b">📥</span>
+          <div><strong>Read the full query carefully before replying.</strong><br />Understand exactly what the customer is asking. Do not jump to a reply without fully reading the message.</div>
+        </li>
+        <li>
+          <span class="a-dot a">🔍</span>
+          <div>
+            <strong>Do you already know the answer?</strong><br />
+            If yes — combine your greeting and answer in one message. Make sure it is accurate and personalised.<br />
+            If no — send a personalised acknowledgement immediately and transfer the chat to <strong>WAITING</strong>.
+            <div class="sample">
+              <div class="sample-lbl">Acknowledgement — Checking Details</div>
+              <p>Sir, I have read your query regarding referral benefits. Please allow me some time to check your details and get back to you.</p>
+            </div>
+            <div class="sample" style="margin-top:8px;">
+              <div class="sample-lbl">Acknowledgement — Checking with Team</div>
+              <p>I have received your query about repayment tracking. Please allow me some time to check with my team and respond.</p>
+            </div>
+            <div class="danger-box">
+              <div class="box-lbl">🚨 Process Breach</div>
+              Failing to transfer the chat to <strong>WAITING</strong> after sending an acknowledgement is a process breach. This triggers unnecessary automated messages to the customer.
+            </div>
+          </div>
+        </li>
+        <li>
+          <span class="a-dot g">✍️</span>
+          <div><strong>Draft your final response.</strong><br />Use the Writer tool to draft and refine your answer. Your response must cover <em>all</em> queries raised, use the customer's own wording, be broken into smaller points, include any required links or screenshots, and be technically accurate.<br /><br />If you are unsure — consult your SME or TL before sending. <strong>Do not guess.</strong></div>
+        </li>
+        <li>
+          <span class="a-dot b">👀</span>
+          <div><strong>Re-read the full chat before sending.</strong><br />Check that no question has been missed. Ensure the answer is complete and personalised.</div>
+        </li>
+        <li>
+          <span class="a-dot g">📤</span>
+          <div><strong>Send the final answer within 1 hour of acknowledgement.</strong><br />Copy the finalised draft and send. Do not combine the final answer with a follow-up message.</div>
+        </li>
+        <li>
+          <span class="a-dot n">🔁</span>
+          <div><strong>Customer has another question?</strong><br />Continue from the top. Keep handling until all queries are fully resolved.</div>
+        </li>
+      </ul>
+
+      <div class="divider"></div>
+      <p style="font-size:13px; font-weight:600; margin-bottom:8px;">Personalisation Check — Before Every Message Ask Yourself:</p>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <div style="background:var(--off-white); border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-size:13px; color:var(--text-mid);">✅ Have I answered everything?</div>
+        <div style="background:var(--off-white); border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-size:13px; color:var(--text-mid);">✅ Is this personalised?</div>
+        <div style="background:var(--off-white); border:1px solid var(--line); border-radius:8px; padding:10px 14px; font-size:13px; color:var(--text-mid);">✅ Is this technically correct?</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CALL REQUESTS ══════════ -->
+  <div id="call" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge">4</div>
+      <h2>Call Request Handling</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">When a customer asks for a call, follow this structured process.</p>
+
+      <div class="flow">
+        <div class="flow-step">
+          <div class="f-dot green">💬</div>
+          <div class="flow-content">
+            <strong>Greet and ask for preferred call time</strong>
+            <div class="sample">
+              <div class="sample-lbl">Sample Message</div>
+              <p>Sir, please let me know your preferred time for the call. I will be happy to connect with you.</p>
+            </div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="f-dot amber">📞</div>
+          <div class="flow-content">
+            <strong>If no response — call within 30 minutes</strong>
+            <span>Do not wait indefinitely. Attempt the call proactively.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="f-dot red">📵</div>
+          <div class="flow-content">
+            <strong>Call not answered? Send a message and wait.</strong>
+            <div class="sample">
+              <div class="sample-lbl">Call Not Answered — Sample Message</div>
+              <p>Sir, as per your request I called you. Unfortunately, the call was not answered. Please let me know the next preferred time to call you again.</p>
+            </div>
+            <span>Wait 30 minutes. If still no response → close as <strong>No Response</strong>.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="f-dot green">✅</div>
+          <div class="flow-content">
+            <strong>Call answered and issue resolved</strong>
+            <span>After the call, send a summary message in the chat and close as <strong>Resolved</strong>.</span>
+            <div class="sample">
+              <div class="sample-lbl">Post-Call Summary Message</div>
+              <p>I hope the call was helpful. Please connect with us if you have any further queries. Have a nice day!</p>
+            </div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="f-dot amber">🔄</div>
+          <div class="flow-content">
+            <strong>Did not know the answer during the call?</strong>
+            <span>Politely inform the customer during the call. Then send a message, transfer to WAITING, and respond within 1 hour.</span>
+            <div class="sample">
+              <div class="sample-lbl">During Call — What to Say</div>
+              <p>Sir, I will check this with my team and get back to you shortly.</p>
+            </div>
+            <div class="sample" style="margin-top:8px;">
+              <div class="sample-lbl">Post-Call — Chat Message</div>
+              <p>Sir, I have shared your query with my team. Please allow me some time to get back to you with the resolution.</p>
+            </div>
+            <div class="danger-box">
+              <div class="box-lbl">🚨 Remember</div>
+              Transfer chat to <strong>WAITING</strong> after sending this message. Respond with the final answer within 1 hour.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ JUNK CHAT ══════════ -->
+  <div id="junk" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge">5</div>
+      <h2>Junk Chat Handling</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">A chat is considered a junk chat in any of the following situations. Handle it politely and close correctly.</p>
+
+      <ul class="a-list">
+        <li><span class="a-dot r">🔗</span><span>The customer sends an unknown link, a suspicious image, or completely irrelevant content.</span></li>
+        <li><span class="a-dot r">✓</span><span>The customer says their issue has already been resolved before the conversation started.</span></li>
+        <li><span class="a-dot r">❓</span><span>The message is random and has no relation to any service we offer.</span></li>
+      </ul>
+
+      <div class="divider"></div>
+
+      <p style="font-size:13.5px; font-weight:600; margin-bottom:12px;">Steps for Junk Chat:</p>
+      <div class="flow">
+        <div class="flow-step">
+          <div class="f-dot green">1</div>
+          <div class="flow-content">
+            <strong>Greet and acknowledge appropriately</strong>
+            <span>Even if the chat is junk, always greet the customer professionally.</span>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="f-dot red">2</div>
+          <div class="flow-content">
+            <strong>Close with a custom closure message and tag as Junk</strong>
+            <div class="sample">
+              <div class="sample-lbl">Junk Closure Message</div>
+              <p>Thank you for contacting Wint Wealth.</p>
+            </div>
+            <div class="tags" style="margin-top:8px;">
+              <span class="tag amber">Junk</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CLOSING ══════════ -->
+  <div id="closing" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge">6</div>
+      <h2>Chat Closing Guidelines</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">Never rush to close a chat. Before closing, always ask once if there is any other query, ensure all queries are answered, and re-read the full conversation.</p>
+
+      <div class="scenario-grid">
+
+        <div class="s-card green">
+          <div class="s-tag green">SCENARIO 1</div>
+          <h3>✅ User Confirms Resolution</h3>
+          <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px;">Customer says "Thank you", "Okay", "Resolved", or similar.</p>
+          <div class="sample">
+            <div class="sample-lbl">Closing Message</div>
+            <p>Thank you for reaching out! I am glad to be of assistance. Please don't hesitate to connect with us if you have any other queries. Have a nice day!</p>
+          </div>
+          <div class="tags" style="margin-top:10px;">
+            <span class="tag green">Resolved</span>
+            <span class="tag blue">Asset_General</span>
+            <span class="tag purple">Taxation</span>
+            <span class="tag dark">FD_General_Enquiry</span>
+          </div>
+        </div>
+
+        <div class="s-card amber">
+          <div class="s-tag amber">SCENARIO 2</div>
+          <h3>🎫 Ticket Raised for Backend Resolution</h3>
+          <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px;">Issue needs backend team to resolve. Raise a ticket and close.</p>
+          <div class="info-box">
+            <div class="box-lbl">ℹ Note</div>
+            The system will trigger the ticket confirmation message automatically. You do not need to send a manual message.
+          </div>
+          <div class="tags" style="margin-top:10px;">
+            <span class="tag blue">Ticket Raised</span>
+            <span class="tag blue">SEBI_KYC_Status</span>
+            <span class="tag dark">Asset_General</span>
+          </div>
+        </div>
+
+        <div class="s-card" style="background:var(--red-light); border-color:var(--red-border);">
+          <div class="s-tag" style="color:var(--red);">SCENARIO 3</div>
+          <h3>🔇 No Response After Follow-Up</h3>
+          <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px;">Customer did not reply for 30 minutes after your follow-up.</p>
+          <div class="info-box">
+            <div class="box-lbl">ℹ Note</div>
+            The system triggers the no-response closure message automatically.
+          </div>
+          <div class="tags" style="margin-top:10px;">
+            <span class="tag red">No Response</span>
+            <span class="tag dark">Asset_General</span>
+            <span class="tag dark">FD_General_Enquiry</span>
+          </div>
+        </div>
+
+        <div class="s-card" style="background:#fafafa; border-color:var(--line);">
+          <div class="s-tag" style="color:var(--text-mid);">SCENARIO 4</div>
+          <h3>🗑 Junk Closure</h3>
+          <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px;">Random, irrelevant, or already resolved before chat started.</p>
+          <div class="sample">
+            <div class="sample-lbl">Custom Closure Message</div>
+            <p>Thank you for contacting Wint Wealth.</p>
+          </div>
+          <div class="tags" style="margin-top:10px;">
+            <span class="tag amber">Junk</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ SHIFT END ══════════ -->
+  <div id="shift" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge icon">🌙</div>
+      <h2>Shift Ending Protocol</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">If your shift is about to end and there are open chats, follow these steps in order. Never leave a chat unattended at the end of your shift.</p>
+
+      <div class="shift-steps">
+        <div class="shift-step"><div class="shift-num">1</div><span>Acknowledge the last customer message in the chat.</span></div>
+        <div class="shift-step"><div class="shift-num">2</div><span>Send a personalised logging-off message to the customer.</span></div>
+        <div class="shift-step"><div class="shift-num">3</div><span>Transfer the chat to <strong>WAITING</strong>.</span></div>
+        <div class="shift-step"><div class="shift-num">4</div><span>Turn the <strong>Gupshup toggle OFF</strong>.</span></div>
+        <div class="shift-step"><div class="shift-num">5</div><span>Set your status to <strong>AWAY</strong>.</span></div>
+      </div>
+
+      <div class="sample" style="margin-top:16px;">
+        <div class="sample-lbl">Sample Logging-Off Message</div>
+        <p>I am logging off for the day, but your chat is still open. I will update you as soon as I receive a response from the concerned team. If you have any questions, feel free to drop them here. We will respond when we log in tomorrow at 10 AM. Thank you for your understanding. Have a good night!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ COMMUNICATION STANDARDS ══════════ -->
+  <div id="standards" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge icon">📐</div>
+      <h2>Communication Standards</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">These standards apply to every single message you send. There are no exceptions.</p>
+
+      <div class="do-dont">
+        <div class="do-card">
+          <h4>✓ Always Do This</h4>
+          <ul class="rule-list">
+            <li>Use simple, clear language — avoid jargon</li>
+            <li>Use proper grammar and punctuation in every message</li>
+            <li>Break long answers into smaller, easy-to-read points</li>
+            <li>Use words like "Apologies" and "Thank you" appropriately</li>
+            <li>Wish the customer on festivals and weekends when relevant</li>
+            <li>Appreciate the user when they share requested details</li>
+            <li>Include the user's query wording in your response (personalisation)</li>
+            <li>Consult SME / TL when unsure of the answer</li>
+          </ul>
+        </div>
+        <div class="dont-card">
+          <h4>✕ Never Do This</h4>
+          <ul class="rule-list">
+            <li>Use words like <em>suggestion, recommendation, advice</em></li>
+            <li>Ask for bank statements or CMR documents over chat</li>
+            <li>Provide incomplete or partial answers</li>
+            <li>Ignore any query — even a minor one</li>
+            <li>Send copy-paste robotic responses</li>
+            <li>Send one-word replies</li>
+            <li>Guess an answer you are not sure about</li>
+            <li>Rush to close a chat before all queries are resolved</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <p style="font-size:13.5px; font-weight:600; margin-bottom:10px;">Personalisation Example</p>
+      <p style="font-size:13px; color:var(--text-mid); margin-bottom:10px;">Instead of a generic closing like this:</p>
+      <div style="background:var(--red-light); border:1px solid var(--red-border); border-radius:8px; padding:11px 14px; font-size:13px; color:var(--text-mid); font-style:italic;">"I hope I was able to address all your queries with the solutions provided above."</div>
+      <p style="font-size:13px; color:var(--text-mid); margin: 10px 0;">Personalise it like this:</p>
+      <div class="sample">
+        <div class="sample-lbl">Personalised Closing</div>
+        <p>"I hope I was able to address all your queries regarding the referral program and the calculations on the platform with the solutions provided above."</p>
+      </div>
+
+      <div class="tip-box" style="margin-top:14px;">
+        <div class="box-lbl">💡 Educational Responsibility</div>
+        Your role is to <strong>educate</strong> users — not to advise them. Clarify doubts, explain processes, and guide them through platform usage. Do not overwhelm users with too much information at once. Give the right amount of information required to address the query.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ DISCLAIMERS ══════════ -->
+  <div id="disclaimers" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge icon">⚠️</div>
+      <h2>Mandatory Disclaimers</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">For the following types of queries, you <strong>must</strong> include the relevant disclaimer in your response. This is mandatory — not optional.</p>
+
+      <div class="disc-grid">
+        <div class="disc-card">
+          <div class="disc-type">Disclaimer Type 1</div>
+          <h4>💰 Taxation Queries</h4>
+          <p>"The information shared is for general guidance only. We are not tax advisors, and you are advised to consult a qualified tax professional for specific tax-related advice."</p>
+          <div class="tags" style="margin-top:10px;"><span class="tag purple">Taxation</span></div>
+        </div>
+        <div class="disc-card">
+          <div class="disc-type">Disclaimer Type 2</div>
+          <h4>📄 15G / 15H Form Queries</h4>
+          <p>"Please Note: The final acceptance and processing of the form is entirely at the discretion of the NBFC. Since Wint Wealth does not have access to the NBFC's internal systems, our ability to intervene is limited if the form is not processed from their end."</p>
+        </div>
+        <div class="disc-card">
+          <div class="disc-type">Disclaimer Type 3</div>
+          <h4>💧 Liquidity / Sell Order Queries</h4>
+          <p>"It is important to note that sell order execution is not guaranteed, as it depends entirely on buyer availability on the platform. However, historically, most sell orders have been executed within 1–2 working days."</p>
+          <div class="tags" style="margin-top:10px;"><span class="tag dark">Asset_General</span></div>
+        </div>
+        <div class="disc-card">
+          <div class="disc-type">Disclaimer Type 4</div>
+          <h4>📊 Advisory / Investment Advice Queries</h4>
+          <p>"Wint Wealth is not a SEBI registered advisor; therefore we do not offer services in relation to investment advice, tax advice, or portfolio management. We are a bond investment platform where we partner with various NBFCs and market their bonds through the platform."</p>
+          <div class="tags" style="margin-top:10px;"><span class="tag blue">SEBI_KYC_Status</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ FINAL CHECKLIST ══════════ -->
+  <div id="checklist" class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge icon">☑</div>
+      <h2>Final Quality Checklist — Before Closing Any Chat</h2>
+    </div>
+    <div class="step-body">
+      <p class="s-intro">Run through every point below before you close any chat. This is your final quality check.</p>
+      <div class="checklist">
+        <div class="check-item"><div class="check-icon"></div>Greeting sent within 30 minutes</div>
+        <div class="check-item"><div class="check-icon"></div>All queries answered — none missed</div>
+        <div class="check-item"><div class="check-icon"></div>Acknowledgement sent (if answer required time)</div>
+        <div class="check-item"><div class="check-icon"></div>Chat transferred to WAITING (if required)</div>
+        <div class="check-item"><div class="check-icon"></div>Final answer shared within 1 hour</div>
+        <div class="check-item"><div class="check-icon"></div>Follow-up sent after 20–30 mins of silence</div>
+        <div class="check-item"><div class="check-icon"></div>Asked customer if there is any other query</div>
+        <div class="check-item"><div class="check-icon"></div>Correct closure category selected</div>
+        <div class="check-item"><div class="check-icon"></div>Relevant tags applied correctly</div>
+        <div class="check-item"><div class="check-icon"></div>Mandatory disclaimer included (if applicable)</div>
+        <div class="check-item"><div class="check-icon"></div>Language is professional and grammatically correct</div>
+        <div class="check-item"><div class="check-icon"></div>Response is personalised — not generic</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ QUICK REFERENCE ══════════ -->
+  <div class="step-block">
+    <div class="step-hdr">
+      <div class="step-badge icon">📌</div>
+      <h2>Quick Reference — All Closure Types &amp; Tags</h2>
+    </div>
+    <div class="step-body">
+      <table class="ref-table">
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>Action</th>
+            <th>Tags to Apply</th>
+            <th>Close As</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Issue resolved, customer confirmed</td>
+            <td>Send closing message</td>
+            <td>
+              <span class="tag green">Resolved</span>
+              <span class="tag blue">Asset_General</span>
+              <span class="tag purple">Taxation</span>
+            </td>
+            <td><strong>Resolved</strong></td>
+          </tr>
+          <tr>
+            <td>No response — initial silence (after greeting)</td>
+            <td>Wait → Follow-up → Wait 30 mins → Close</td>
+            <td><span class="tag amber">Junk – No Response</span></td>
+            <td><strong>Junk / No Response</strong></td>
+          </tr>
+          <tr>
+            <td>No response — mid-chat silence (after answer)</td>
+            <td>Wait → Follow-up → Wait 30 mins → Close</td>
+            <td>
+              <span class="tag red">No Response</span>
+              <span class="tag dark">FD_General_Enquiry</span>
+            </td>
+            <td><strong>No Response</strong></td>
+          </tr>
+          <tr>
+            <td>Needs backend resolution (ticket raised)</td>
+            <td>Raise ticket, system triggers message</td>
+            <td>
+              <span class="tag blue">Ticket Raised</span>
+              <span class="tag blue">SEBI_KYC_Status</span>
+            </td>
+            <td><strong>Ticket Raised</strong></td>
+          </tr>
+          <tr>
+            <td>Junk / irrelevant / already resolved</td>
+            <td>Greet → Custom closure message</td>
+            <td><span class="tag amber">Junk</span></td>
+            <td><strong>Custom / Junk</strong></td>
+          </tr>
+          <tr>
+            <td>Call requested, call resolved</td>
+            <td>Send post-call summary message</td>
+            <td>
+              <span class="tag green">Resolved</span>
+              <span class="tag dark">Asset_General</span>
+            </td>
+            <td><strong>Resolved</strong></td>
+          </tr>
+          <tr>
+            <td>Call not answered, no response after follow-up</td>
+            <td>Wait 30 mins → Close</td>
+            <td><span class="tag red">No Response</span></td>
+            <td><strong>No Response</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ══════════ FINAL NOTE ══════════ -->
+  <div class="callout">
+    <div class="callout-icon">🌟</div>
+    <div class="callout-body">
+      <h3>A Note to All Associates</h3>
+      <p>You are not just handling chats — you are building trust. Be calm. Be structured. Be accurate. Be patient. Be professional. Never rush to close. Never ignore a query. Always double-check before ending the conversation. Consistency in following this SOP ensures excellent customer experience and process compliance.</p>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Wint Wealth</span> &nbsp;|&nbsp; WhatsApp Chat Handling SOP &nbsp;|&nbsp; For Internal Use Only &nbsp;|&nbsp; Customer Support Team
+</footer>
+
+</body>
+</html>
