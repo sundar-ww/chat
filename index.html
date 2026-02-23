@@ -837,7 +837,7 @@
             <span>Tag and close as per the type of silence.</span>
             <div class="tags">
               <strong>No Response</strong>
-              <span class="tag amber">Junk – No Response</span>
+              <span class="tag amber">Junk No Response</span>
             </div>
             <div class="info-box" style="margin-top:10px;">
               <div class="box-lbl">ℹ Note</div>
@@ -853,15 +853,15 @@
   <div id="active" class="step-block">
     <div class="step-hdr">
       <div class="step-badge">3</div>
-      <h2>Active Query Handling — Responding to the Customer</h2>
+      <h2>Active Query Handling — Responding to the User</h2>
     </div>
     <div class="step-body">
-      <p class="s-intro">Once the customer shares their query, handle it carefully in the following sequence.</p>
+      <p class="s-intro">Once the user shares their query, handle it carefully in the following sequence.</p>
 
       <ul class="a-list">
         <li>
           <span class="a-dot b">📥</span>
-          <div><strong>Read the full query carefully before replying.</strong><br />Understand exactly what the customer is asking. Do not jump to a reply without fully reading the message.</div>
+          <div><strong>Read the full query carefully before replying.</strong><br />Understand exactly what the user is asking. Do not jump to a reply without fully reading the message.</div>
         </li>
         <li>
           <span class="a-dot a">🔍</span>
@@ -947,6 +947,7 @@
               <p>Sir, as per your request I called you. Unfortunately, the call was not answered. Please let me know the next preferred time to call you again.</p>
             </div>
             <span>Wait 30 minutes. If still no response → close as <strong>No Response</strong>.</span>
+            <span class="tag amber">Junk No Response</span>
           </div>
         </div>
         <div class="flow-step">
@@ -954,6 +955,8 @@
           <div class="flow-content">
             <strong>Call answered and issue resolved</strong>
             <span>After the call, send a summary message in the chat and close as <strong>Resolved</strong>.</span>
+             <span class="tag amber">Calls_Directly</span>
+              <span class="tag amber">Asset_General_Enquiry</span>
             <div class="sample">
               <div class="sample-lbl">Post-Call Summary Message</div>
               <p>I hope the call was helpful. Please connect with us if you have any further queries. Have a nice day!</p>
@@ -1047,7 +1050,7 @@
           </div>
           <div class="tags" style="margin-top:10px;">
             <strong>Resolved</strong>
-            <span class="tag blue">Asset_General</span>
+            <span class="tag blue">Asset_General_Enquiry</span>
             <span class="tag purple">Taxation</span>
             <span class="tag dark">FD_General_Enquiry</span>
           </div>
@@ -1064,7 +1067,7 @@
           <div class="tags" style="margin-top:10px;">
             <strong>Ticket Raised</strong>
             <span class="tag blue">SEBI_KYC_Status</span>
-            <span class="tag dark">Asset_General</span>
+            <span class="tag dark">Asset_General_Enquiry</span>
           </div>
         </div>
 
@@ -1078,7 +1081,7 @@
           </div>
           <div class="tags" style="margin-top:10px;">
             <span class="tag red">No Response</span>
-            <span class="tag dark">Asset_General</span>
+            <span class="tag dark">Asset_General_Enquiry</span>
             <span class="tag dark">FD_General_Enquiry</span>
           </div>
         </div>
@@ -1263,7 +1266,7 @@
             <td>Issue resolved, customer confirmed</td>
             <td>Send closing message</td>
             <td>
-              <span class="tag blue">Asset_General</span>
+              <span class="tag blue">Asset_General_Enquiry</span>
               <span class="tag purple">Taxation</span>
             </td>
             <td><strong>Resolved</strong></td>
@@ -1301,7 +1304,7 @@
             <td>Call requested, call resolved</td>
             <td>Send post-call summary message</td>
             <td>
-              <span class="tag dark">Asset_General</span>
+              <span class="tag dark">Asset_General_Enquiry</span>
               <span class="tag dark">Calls_Directly</span>
             </td>
             <td><strong>Resolved</strong></td>
